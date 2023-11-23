@@ -7,6 +7,7 @@ import { authOptions } from '@/app/lib/auth';
 export const postData = async (formData: FormData) => {
   'user server';
 
+  const Pusher = require('pusher');
   const session = await getServerSession(authOptions);
   const message = formData.get('message');
 
@@ -24,4 +25,14 @@ export const postData = async (formData: FormData) => {
       },
     },
   });
+
+  const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID as string,
+    key: process.env.NEXT_PUBLIC_PUSHER_KEY as string,
+    secret: process.env.PUSHER_SECRET as string,
+    cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
+    useTLS: true,
+  });
+
+  pusher.trigger('my-channel', 'my-event', data);
 };

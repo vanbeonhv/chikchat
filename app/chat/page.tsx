@@ -15,7 +15,6 @@ const ChatHomePage = async () => {
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
       <Chat />
-
       <Form />
     </div>
   );

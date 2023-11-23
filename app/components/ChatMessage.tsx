@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { nanoid } from 'nanoid';
+import Pusher from 'pusher-js';
 
 const Chat = () => {
-  const [allMessage, setAllMessage] = useState([
+  const [allMessage] = useState([
     {
       message: 'Hello',
       User: {
@@ -15,11 +17,22 @@ const Chat = () => {
     },
   ]);
 
+  console.log(process.env.NEXT_PUBLIC_PUSHER_APP_KEY)
+
+  const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY as string, {
+    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER as string,
+  });
+
+  const channel = pusher.subscribe('my-channel');
+  channel.bind('my-event', function (data: unknown) {
+    alert(JSON.stringify(data));
+  });
+
   return (
     <div className='p-6 flex-grow max-h-screen overflow-y-auto py-32'>
       <div className='flex flex-col gap-4'>
         {allMessage.map((message, index) => (
-          <div key={index}>
+          <div key={nanoid()}>
             <div className='flex items-center'>
               <Image
                 src={message.User.image}
