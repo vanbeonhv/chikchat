@@ -1,4 +1,4 @@
-import { MainLogin } from '@/app/components/Button';
+import { MainLogin } from '@/app/components/AuthButton';
 import { authOptions } from '@/app/lib/auth';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';

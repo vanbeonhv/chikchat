@@ -2,10 +2,10 @@ import React from 'react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/lib/auth';
 import { redirect } from 'next/navigation';
-import Form from '@/app/components/Form';
-import Chat from '../components/ChatMessage';
+import Form from '@/app/chat/Form';
 import { prisma } from '@/app/lib/db';
 import { IMessageDetail } from '@/app/action';
+import Conversation from '@/app/chat/Conversation';
 
 const getAllMessage = async () => {
   const data: IMessageDetail[] = await prisma.message.findMany({
@@ -41,7 +41,7 @@ const ChatHomePage = async () => {
 
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
-      <Chat messageList={messageList} />
+      <Conversation messageList={messageList} />
       <Form />
     </div>
   );

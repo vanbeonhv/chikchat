@@ -13,23 +13,6 @@ export function Logout() {
   );
 }
 
-export function NavLogin() {
-  return (
-    <button
-      onClick={async () => {
-        try {
-          await signIn('github');
-        } catch (error) {
-          console.log(error);
-        }
-      }}
-      className='flex items-center justify-center gap-2 rounded-lg bg-teal-500 px-8 py-3 text-center text-sm font-semibold text-white ring-teal-300 transition duration-100 hover:bg-teal-600 md:text-base'
-    >
-      Login
-    </button>
-  );
-}
-
 export function MainLogin() {
   return (
     <button

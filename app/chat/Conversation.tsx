@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { nanoid } from 'nanoid';
 import Pusher from 'pusher-js';
 import { IMessageDetail } from '@/app/action';
+import {useSession} from "next-auth/react";
 
-const Chat = ({ messageList }: { messageList: IMessageDetail[] }) => {
+const Conversation = ({ messageList }: { messageList: IMessageDetail[] }) => {
   const [allMessage, setAllMessage] = useState<IMessageDetail[]>(messageList);
   const messageEndRef = useRef<HTMLDivElement>(null);
+  // const session = useSession();
 
   const scrollNewMessage = () =>
     messageEndRef.current?.scrollIntoView({
@@ -64,4 +66,4 @@ const Chat = ({ messageList }: { messageList: IMessageDetail[] }) => {
   );
 };
 
-export default Chat;
+export default Conversation;

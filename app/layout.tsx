@@ -5,7 +5,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './lib/auth';
 import Image from 'next/image';
 import { NextAuthProvider } from './components/Provider';
-import { Logout, NavLogin } from './components/Button';
+import { Logout } from './components/AuthButton';
+import { ReactNode } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
   return (
@@ -29,7 +30,7 @@ export default async function RootLayout({
               Chick<span className='text-teal-500'>Chat</span>
             </h1>
 
-            {session ? (
+            {session && (
               <div className='flex items-center'>
                 <Image
                   src={session.user?.image as string}
@@ -40,8 +41,6 @@ export default async function RootLayout({
                 />
                 <Logout />
               </div>
-            ) : (
-              <NavLogin />
             )}
           </nav>
 
