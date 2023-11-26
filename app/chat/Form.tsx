@@ -8,6 +8,8 @@ export default function Form() {
     return (
         <form
             action={async (formData) => {
+                if(!formData.get("message")) return;
+
                 await postData(formData);
                 formRef.current?.reset();
             }}
