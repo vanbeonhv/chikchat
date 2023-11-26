@@ -22,7 +22,7 @@ const ChatMessage = ({ message }: { message: IMessageDetail }) => {
           width={50}
           height={50}
         />
-        <div className={`rounded-lg p-4 shadow-md self-start ${isPrimaryBackground}`}>
+        <div className={`rounded-full px-4 py-2 shadow-md self-start ${isPrimaryBackground}`}>
           {message.message}
         </div>
       </div>
