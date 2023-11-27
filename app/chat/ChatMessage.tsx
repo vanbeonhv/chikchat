@@ -41,10 +41,6 @@ const ChatMessage = ({ message }: { message: IMessageDetail }) => {
           </div>
         </Tooltip>
       </div>
-
-      {/* <p className='font-light text-sm text-gray-600'>
-        {getDateTime(message.createAt)}
-      </p> */}
     </div>
   );
 };
