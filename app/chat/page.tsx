@@ -7,6 +7,10 @@ import { prisma } from '@/app/lib/db';
 import { IMessageDetail } from '@/app/action';
 import Conversation from '@/app/chat/Conversation';
 
+export interface IGroupMessage {
+  [key: string]: IMessageDetail[];
+}
+
 const getAllMessage = async () => {
   const data: IMessageDetail[] = await prisma.message.findMany({
     select: {
@@ -38,10 +42,19 @@ const ChatHomePage = async () => {
   }
 
   const messageList = await getAllMessage();
+  const groupMessageByDate = messageList.reduce(
+    (groupMessages: IGroupMessage, message: IMessageDetail) => {
+      const date = message.createAt.toISOString().split('T')[0];
+      groupMessages[date] = [...(groupMessages[date] ?? []), message];
+      return groupMessages;
+    },
+    {}
+  );
+  console.log('groupMessageByDate:', groupMessageByDate);
 
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
-      <Conversation messageList={messageList} />
+      <Conversation groupMessageByDate={groupMessageByDate} />
       <Form />
     </div>
   );

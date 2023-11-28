@@ -15,7 +15,7 @@ const ChatMessage = ({ message }: { message: IMessageDetail }) => {
     : 'bg-white';
 
   return (
-    <div className={isTextRight}>
+    <div className={`my-2  ${isTextRight}`}>
       <div className={`flex items-center gap-4 ${isFlexRight}`}>
         <Tooltip
           title={message.User?.name as string}
