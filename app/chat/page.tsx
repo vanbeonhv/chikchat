@@ -50,7 +50,6 @@ const ChatHomePage = async () => {
     },
     {}
   );
-  console.log('groupMessageByDate:', groupMessageByDate);
 
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
