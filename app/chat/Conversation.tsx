@@ -6,14 +6,15 @@ import { nanoid } from 'nanoid';
 import Pusher from 'pusher-js';
 import { useEffect, useRef, useState } from 'react';
 import { IGroupMessage } from './page';
+import { IMessageDetail } from '../action';
 
 const Conversation = ({
-  groupMessageByDate,
+  messageListBySession,
 }: {
-  groupMessageByDate: IGroupMessage;
+  messageListBySession: IGroupMessage[];
 }) => {
   const [allMessage, setAllMessage] =
-    useState<IGroupMessage>(groupMessageByDate);
+    useState<IGroupMessage[]>(messageListBySession);
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   const scrollNewMessage = () =>
@@ -30,9 +31,10 @@ const Conversation = ({
     );
 
     const channel = pusher.subscribe('my-channel');
-    // channel.bind('my-event', function(data: any) {
-    //   setAllMessage((prev) => [...prev, data]);
-    // });
+    channel.bind('my-event', function (data: IMessageDetail) {
+      console.log('data:', data);
+      // setAllMessage((prev) => [...prev, data]);
+    });
 
     return () => pusher.unsubscribe('my-channel');
   }, []);
@@ -44,16 +46,22 @@ const Conversation = ({
   return (
     <div className='p-6 flex-grow max-h-screen overflow-y-auto py-32'>
       <div className='flex flex-col gap-4'>
-        {Object.keys(allMessage).map((date) => (
-          <div key={date}>
-            <p className='text-center py-4 text-slate-700'>
-              {getDateTime(allMessage[date][0].createAt)}
-            </p>
-            {allMessage[date].map((message) => (
-              <ChatMessage key={nanoid()} message={message} />
-            ))}
-          </div>
-        ))}
+        {allMessage.map((session) => {
+          return (
+            <div key={session[0].createAt.getTime()}>
+              <p className='text-center py-4 text-slate-700'>
+                {getDateTime(session[0].createAt)}
+              </p>
+              {session.map((message, index) => (
+                <ChatMessage
+                  key={nanoid()}
+                  message={message}
+                  isShowAvatar={index === session.length - 1}
+                />
+              ))}
+            </div>
+          );
+        })}
         <div ref={messageEndRef}></div>
       </div>
     </div>

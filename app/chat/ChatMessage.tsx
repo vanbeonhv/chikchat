@@ -4,7 +4,13 @@ import { getDateTime } from '@/util/getDateTime';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
-const ChatMessage = ({ message }: { message: IMessageDetail }) => {
+const ChatMessage = ({
+  message,
+  isShowAvatar,
+}: {
+  message: IMessageDetail;
+  isShowAvatar: boolean;
+}) => {
   const session = useSession();
   const isOwnMessage = message.email === session?.data?.user?.email;
 
@@ -15,20 +21,24 @@ const ChatMessage = ({ message }: { message: IMessageDetail }) => {
     : 'bg-white';
 
   return (
-    <div className={`my-2  ${isTextRight}`}>
-      <div className={`flex items-center gap-4 ${isFlexRight}`}>
-        <Tooltip
-          title={message.User?.name as string}
-          side={isOwnMessage ? 'left' : 'right'}
-        >
-          <Image
-            src={message.User?.image ?? ''}
-            alt='Profile image of user'
-            className='w-12 h-12 object-cover rounded-lg'
-            width={50}
-            height={50}
-          />
-        </Tooltip>
+    <div className={`${isTextRight}`}>
+      <div className={`flex items-center gap-4 h-11 ${isFlexRight}`}>
+        {isShowAvatar ? (
+          <Tooltip
+            title={message.User?.name as string}
+            side={isOwnMessage ? 'left' : 'right'}
+          >
+            <Image
+              src={message.User?.image ?? ''}
+              alt='Profile image of user'
+              className='w-12 object-cover rounded-lg'
+              width={50}
+              height={50}
+            />
+          </Tooltip>
+        ) : (
+          <div className='w-12 bg-gray-200'></div>
+        )}
 
         <Tooltip
           title={getDateTime(message.createAt)}

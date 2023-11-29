@@ -69,9 +69,13 @@
     },
     "commit_scope": {
         "enable": true,
-        "custom_scope": false,
+        "custom_scope": true,
         "initial_value": "app",
         "options": [
+            {
+                "value": "",
+                "label": "none"
+            },
             {
                 "value": "app",
                 "label": "app"
@@ -87,17 +91,13 @@
             {
                 "value": "tools",
                 "label": "tools"
-            },
-            {
-                "value": "",
-                "label": "none"
             }
         ]
     },
     "check_ticket": {
-        "infer_ticket": true,
-        "confirm_ticket": true,
-        "add_to_title": true,
+        "infer_ticket": false,
+        "confirm_ticket": false,
+        "add_to_title": false,
         "append_hashtag": false,
         "title_position": "start"
     },
@@ -135,7 +135,7 @@
         "separator": "/"
     },
     "branch_ticket": {
-        "enable": true,
+        "enable": false,
         "required": false,
         "separator": "-"
     },
