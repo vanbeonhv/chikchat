@@ -25,7 +25,7 @@ const getAllMessage = async () => {
       },
     },
     orderBy: {
-      createAt: 'asc',
+      createAt: 'desc',
     },
     take: 50,
   });
@@ -41,10 +41,12 @@ const ChatHomePage = async () => {
     redirect('/');
   }
 
-  const messageList = await getAllMessage();
+  const messageList = (await getAllMessage()).reverse();
 
   let messageListBySession: IGroupMessage[] = [];
   let currentSession: IGroupMessage = [];
+
+  console.log(messageList)
 
   messageList.forEach((message, index) => {
     if (index === 0) {
