@@ -32,17 +32,19 @@ const Conversation = ({
     );
 
     const channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function (data: IMessageDetail) {
-      console.log('data:', data);
+    channel.bind('my-event', function (data: any) {
+      const parsedData = data as IMessageDetail;
+
       setAllMessage((prev) => {
-        const tempMessageList = [...prev];
-        const lastMessageSession = tempMessageList[tempMessageList.length - 1];
-        const lastMessage = lastMessageSession[lastMessageSession.length - 1];
+        const lastSession = prev[prev.length - 1];
+        const lastMessage = lastSession[lastSession.length - 1];
         const gapTime =
-          data.createAt.getTime() - lastMessage.createAt.getTime();
+          parsedData.createAt.getTime() - lastMessage.createAt.getTime();
         gapTime < TIME_HOLD_SESSION
-          ? lastMessageSession.push(data)
-          : prev.push([data]);
+          ? prev[prev.length - 1].push(parsedData)
+          : prev.push([parsedData]);
+        console.log(prev);
+        return prev;
       });
     });
 
