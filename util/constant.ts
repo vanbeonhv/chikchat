@@ -1,0 +1,1 @@
+export const TIME_HOLD_SESSION = 5 * 60 * 1000;
