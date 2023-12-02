@@ -37,8 +37,6 @@ export const dynamic = 'force-dynamic';
 const ChatHomePage = async () => {
   const session = await getServerSession(authOptions);
 
-  //5 minutes
-
   if (!session) {
     redirect('/');
   }
@@ -63,17 +61,6 @@ const ChatHomePage = async () => {
       }
     }
   });
-
-  // const groupMessageByDate = messageList.reduce(
-  //   (groupMessages: IGroupMessage, message: IMessageDetail) => {
-
-  //     const date = message.createAt.toISOString().split('T')[0];
-  //     groupMessages[date] = [...(groupMessages[date] ?? []), message];
-  //     return groupMessages;
-  //   },
-  //   {}
-  // );
-  console.log('messageList:', messageList);
 
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>

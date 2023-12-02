@@ -7,6 +7,7 @@ import Pusher from 'pusher-js';
 import { useEffect, useRef, useState } from 'react';
 import { IGroupMessage } from './page';
 import { IMessageDetail } from '../action';
+import { TIME_HOLD_SESSION } from '@/util/constant';
 
 const Conversation = ({
   messageListBySession,
@@ -32,8 +33,17 @@ const Conversation = ({
 
     const channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function (data: IMessageDetail) {
-      console.log("data", data);
-      // setAllMessage((prev) => [...prev, data]);
+      console.log('data:', data);
+      setAllMessage((prev) => {
+        const tempMessageList = [...prev];
+        const lastMessageSession = tempMessageList[tempMessageList.length - 1];
+        const lastMessage = lastMessageSession[lastMessageSession.length - 1];
+        const gapTime =
+          data.createAt.getTime() - lastMessage.createAt.getTime();
+        gapTime < TIME_HOLD_SESSION
+          ? lastMessageSession.push(data)
+          : prev.push([data]);
+      });
     });
 
     return () => pusher.unsubscribe('my-channel');
