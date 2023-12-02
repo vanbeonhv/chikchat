@@ -32,7 +32,7 @@ const Conversation = ({
 
     const channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function (data: IMessageDetail) {
-      console.log('data:', data);
+      console.log("data", data);
       // setAllMessage((prev) => [...prev, data]);
     });
 

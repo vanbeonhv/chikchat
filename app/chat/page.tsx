@@ -6,6 +6,7 @@ import Form from '@/app/chat/Form';
 import { prisma } from '@/app/lib/db';
 import { IMessageDetail } from '@/app/action';
 import Conversation from '@/app/chat/Conversation';
+import { TIME_HOLD_SESSION } from '@/util/constant';
 
 export type IGroupMessage = IMessageDetail[];
 
@@ -32,7 +33,6 @@ const getAllMessage = async () => {
 };
 
 export const dynamic = 'force-dynamic';
-export const timeHoldSession = 5 * 60 * 1000;
 
 const ChatHomePage = async () => {
   const session = await getServerSession(authOptions);
@@ -54,7 +54,7 @@ const ChatHomePage = async () => {
     } else {
       const gapTime =
         message.createAt.getTime() - messageList[index - 1].createAt.getTime();
-      if (gapTime <= timeHoldSession) {
+      if (gapTime <= TIME_HOLD_SESSION) {
         currentSession.push(message);
       } else {
         messageListBySession.push(currentSession);
