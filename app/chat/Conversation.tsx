@@ -17,7 +17,6 @@ const Conversation = ({
   const [allMessage, setAllMessage] =
     useState<IGroupMessage[]>(messageListBySession);
   const messageEndRef = useRef<HTMLDivElement>(null);
-
   const scrollNewMessage = () =>
     messageEndRef.current?.scrollIntoView({
       behavior: 'smooth',
@@ -37,24 +36,27 @@ const Conversation = ({
         ...data,
         createAt: new Date(data.createAt),
       } as IMessageDetail;
-      console.log(parsedData);
 
+      console.log('before setAllMessage');
       setAllMessage((prev) => {
+        console.log('prev all message:', prev[prev.length - 1]);
         const tempMessageList = [...prev];
         const lastSession = tempMessageList[tempMessageList.length - 1];
         const lastMessage = lastSession[lastSession.length - 1];
         const gapTime =
-          new Date(parsedData.createAt).getTime() - lastMessage.createAt.getTime();
+          new Date(parsedData.createAt).getTime() -
+          lastMessage.createAt.getTime();
         gapTime < TIME_HOLD_SESSION
           ? tempMessageList[tempMessageList.length - 1].push(parsedData)
           : tempMessageList.push([parsedData]);
-        console.log(tempMessageList);
+        console.log('set new image:', lastMessage.message);
         return tempMessageList;
       });
+      console.log('after setAllMessage');
     });
 
     return () => pusher.unsubscribe('my-channel');
-  }, []);
+  }, [allMessage]);
 
   useEffect(() => {
     scrollNewMessage();

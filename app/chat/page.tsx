@@ -46,8 +46,6 @@ const ChatHomePage = async () => {
   let messageListBySession: IGroupMessage[] = [];
   let currentSession: IGroupMessage = [];
 
-  console.log(messageList)
-
   messageList.forEach((message, index) => {
     if (index === 0) {
       currentSession.push(message);
@@ -56,6 +54,8 @@ const ChatHomePage = async () => {
         message.createAt.getTime() - messageList[index - 1].createAt.getTime();
       if (gapTime <= TIME_HOLD_SESSION) {
         currentSession.push(message);
+        index === messageList.length - 1 &&
+          messageListBySession.push(currentSession);
       } else {
         messageListBySession.push(currentSession);
         currentSession = [];
@@ -63,7 +63,6 @@ const ChatHomePage = async () => {
       }
     }
   });
-
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
       <Conversation messageListBySession={messageListBySession} />
