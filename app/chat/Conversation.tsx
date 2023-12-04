@@ -1,13 +1,11 @@
 'use client';
 
-import ChatMessage from '@/app/chat/ChatMessage';
-import { getDateTime } from '@/util/getDateTime';
-import { nanoid } from 'nanoid';
 import Pusher from 'pusher-js';
 import { memo, useEffect, useRef, useState } from 'react';
 import { IGroupMessage } from './page';
 import { IMessageDetail } from '../action';
 import { TIME_HOLD_SESSION } from '@/util/constant';
+import ChatSession from '@/app/chat/ChatSession';
 
 const Conversation = ({
   messageListBySession,
@@ -65,18 +63,10 @@ const Conversation = ({
       <div className='flex flex-col gap-4'>
         {allMessage.map((session) => {
           return (
-            <div key={session[0].createAt.getTime()}>
-              <p className='text-center py-4 text-slate-700'>
-                {getDateTime(session[0].createAt)}
-              </p>
-              {session.map((message, index) => (
-                <ChatMessage
-                  key={nanoid()}
-                  message={message}
-                  isShowAvatar={index === session.length - 1}
-                />
-              ))}
-            </div>
+            <ChatSession
+              key={session[0].createAt.getTime()}
+              session={session}
+            />
           );
         })}
         <div ref={messageEndRef}></div>
