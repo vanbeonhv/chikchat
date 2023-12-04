@@ -3,13 +3,13 @@
 import { prisma } from '@/app/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/lib/auth';
-import {Message} from "@prisma/client";
+import { Message } from '@prisma/client';
 
 export interface IMessageDetail extends Message {
-    User: {
-        name: string | null;
-        image: string | null;
-    } | null;
+  User: {
+    name: string | null;
+    image: string | null;
+  } | null;
 }
 export const postData = async (formData: FormData) => {
   'user server';
@@ -18,7 +18,7 @@ export const postData = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
   const message = formData.get('message');
 
-  const data : IMessageDetail = await prisma.message.create({
+  const data: IMessageDetail = await prisma.message.create({
     data: {
       message: message as string,
       email: session?.user?.email,

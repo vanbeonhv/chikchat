@@ -25,7 +25,7 @@ const getAllMessage = async () => {
       },
     },
     orderBy: {
-      createAt: 'asc',
+      createAt: 'desc',
     },
     take: 50,
   });
@@ -37,13 +37,11 @@ export const dynamic = 'force-dynamic';
 const ChatHomePage = async () => {
   const session = await getServerSession(authOptions);
 
-  //5 minutes
-
   if (!session) {
     redirect('/');
   }
 
-  const messageList = await getAllMessage();
+  const messageList = (await getAllMessage()).reverse();
 
   let messageListBySession: IGroupMessage[] = [];
   let currentSession: IGroupMessage = [];
@@ -56,6 +54,8 @@ const ChatHomePage = async () => {
         message.createAt.getTime() - messageList[index - 1].createAt.getTime();
       if (gapTime <= TIME_HOLD_SESSION) {
         currentSession.push(message);
+        index === messageList.length - 1 &&
+          messageListBySession.push(currentSession);
       } else {
         messageListBySession.push(currentSession);
         currentSession = [];
@@ -63,18 +63,6 @@ const ChatHomePage = async () => {
       }
     }
   });
-
-  // const groupMessageByDate = messageList.reduce(
-  //   (groupMessages: IGroupMessage, message: IMessageDetail) => {
-
-  //     const date = message.createAt.toISOString().split('T')[0];
-  //     groupMessages[date] = [...(groupMessages[date] ?? []), message];
-  //     return groupMessages;
-  //   },
-  //   {}
-  // );
-  console.log('messageList:', messageList);
-
   return (
     <div className='h-screen bg-gray-200 flex flex-col'>
       <Conversation messageListBySession={messageListBySession} />

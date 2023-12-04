@@ -4,9 +4,10 @@ import ChatMessage from '@/app/chat/ChatMessage';
 import { getDateTime } from '@/util/getDateTime';
 import { nanoid } from 'nanoid';
 import Pusher from 'pusher-js';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { IGroupMessage } from './page';
 import { IMessageDetail } from '../action';
+import { TIME_HOLD_SESSION } from '@/util/constant';
 
 const Conversation = ({
   messageListBySession,
@@ -16,7 +17,6 @@ const Conversation = ({
   const [allMessage, setAllMessage] =
     useState<IGroupMessage[]>(messageListBySession);
   const messageEndRef = useRef<HTMLDivElement>(null);
-
   const scrollNewMessage = () =>
     messageEndRef.current?.scrollIntoView({
       behavior: 'smooth',
@@ -31,9 +31,26 @@ const Conversation = ({
     );
 
     const channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function (data: IMessageDetail) {
-      console.log("data", data);
-      // setAllMessage((prev) => [...prev, data]);
+    channel.bind('my-event', function (data: any) {
+      const parsedData = {
+        ...data,
+        createAt: new Date(data.createAt),
+      } as IMessageDetail;
+
+      setAllMessage((prevState) => {
+        const tempMessageList = [...prevState];
+        const lastSession = tempMessageList[tempMessageList.length - 1];
+        const lastMessage = lastSession[lastSession.length - 1];
+        if (lastMessage.id === parsedData.id) return prevState;
+
+        const gapTime =
+          new Date(parsedData.createAt).getTime() -
+          lastMessage.createAt.getTime();
+        gapTime < TIME_HOLD_SESSION
+          ? tempMessageList[tempMessageList.length - 1].push(parsedData)
+          : tempMessageList.push([parsedData]);
+        return tempMessageList;
+      });
     });
 
     return () => pusher.unsubscribe('my-channel');
@@ -68,4 +85,4 @@ const Conversation = ({
   );
 };
 
-export default Conversation;
+export default memo(Conversation);
