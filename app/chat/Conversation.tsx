@@ -4,7 +4,7 @@ import ChatMessage from '@/app/chat/ChatMessage';
 import { getDateTime } from '@/util/getDateTime';
 import { nanoid } from 'nanoid';
 import Pusher from 'pusher-js';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { IGroupMessage } from './page';
 import { IMessageDetail } from '../action';
 import { TIME_HOLD_SESSION } from '@/util/constant';
@@ -37,26 +37,24 @@ const Conversation = ({
         createAt: new Date(data.createAt),
       } as IMessageDetail;
 
-      console.log('before setAllMessage');
-      setAllMessage((prev) => {
-        console.log('prev all message:', prev[prev.length - 1]);
-        const tempMessageList = [...prev];
+      setAllMessage((prevState) => {
+        const tempMessageList = [...prevState];
         const lastSession = tempMessageList[tempMessageList.length - 1];
         const lastMessage = lastSession[lastSession.length - 1];
+        if (lastMessage.id === parsedData.id) return prevState;
+
         const gapTime =
           new Date(parsedData.createAt).getTime() -
           lastMessage.createAt.getTime();
         gapTime < TIME_HOLD_SESSION
           ? tempMessageList[tempMessageList.length - 1].push(parsedData)
           : tempMessageList.push([parsedData]);
-        console.log('set new image:', lastMessage.message);
         return tempMessageList;
       });
-      console.log('after setAllMessage');
     });
 
     return () => pusher.unsubscribe('my-channel');
-  }, [allMessage]);
+  }, []);
 
   useEffect(() => {
     scrollNewMessage();
@@ -87,4 +85,4 @@ const Conversation = ({
   );
 };
 
-export default Conversation;
+export default memo(Conversation);
