@@ -1,0 +1,41 @@
+.message-border-radius.bg-teal-500 {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.message-border-radius.top{
+  border-top-left-radius: 20px;
+}
+
+.message-border-radius.middle{
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.message-border-radius.bottom{
+  border-bottom-left-radius: 20px;
+}
+
+
+
+.message-border-radius.bg-teal-500 {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.message-border-radius.bg-teal-500.top{
+  border-top-right-radius: 20px;
+}
+
+.message-border-radius.bg-teal-500.middle{
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.message-border-radius.bg-teal-500.bottom{
+  border-bottom-right-radius: 20px;
+}

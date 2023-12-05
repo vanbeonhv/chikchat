@@ -15,11 +15,25 @@ const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
           isShowAvatar = true;
         } else isShowAvatar = session[index + 1].email !== message.email;
 
+        let messagePosition = '';
+        switch (index) {
+          case 0:
+            messagePosition = 'top';
+            break;
+          case session.length - 1:
+            messagePosition = 'bottom';
+            break;
+
+          default:
+            messagePosition = 'middle';
+            break;
+        }
         return (
           <ChatMessage
             key={nanoid()}
             message={message}
             isShowAvatar={isShowAvatar}
+            position={messagePosition}
           />
         );
       })}
