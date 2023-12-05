@@ -2,6 +2,7 @@ import { getDateTime } from '@/util/getDateTime';
 import ChatMessage from '@/app/chat/ChatMessage';
 import { nanoid } from 'nanoid';
 import { IMessageDetail } from '@/app/action';
+import { MessagePosition } from '@/app/type/common';
 
 const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
   return (
@@ -15,7 +16,7 @@ const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
           isShowAvatar = true;
         } else isShowAvatar = session[index + 1].email !== message.email;
 
-        let messagePosition = '';
+        let messagePosition: MessagePosition;
         switch (index) {
           case 0:
             messagePosition = 'top';
@@ -23,7 +24,6 @@ const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
           case session.length - 1:
             messagePosition = 'bottom';
             break;
-
           default:
             messagePosition = 'middle';
             break;
