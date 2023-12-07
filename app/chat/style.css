@@ -7,11 +7,16 @@
 }
 
 .message-border-radius.middle {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .message-border-radius.bottom {
+  border-bottom-left-radius: 20px;
+}
+
+.message-border-radius.single {
+  border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
 
@@ -24,10 +29,15 @@
 }
 
 .message-border-radius.bg-teal-500.middle {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .message-border-radius.bg-teal-500.bottom {
+  border-bottom-right-radius: 20px;
+}
+
+.message-border-radius.bg-teal-500.single {
+  border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 }

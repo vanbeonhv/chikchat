@@ -1,1 +1,1 @@
-export type MessagePosition = 'top' | 'middle' | 'bottom' | '';
+export type MessagePosition = 'top' | 'middle' | 'bottom' | 'single' | '';
