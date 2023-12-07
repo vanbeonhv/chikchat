@@ -19,7 +19,6 @@ const ChatMessage = ({
 }: IChatMessageProps
  
 ) => {
-  console.log('position:', position)
   const session = useSession();
   const isOwnMessage = message.email === session?.data?.user?.email;
 
