@@ -4,6 +4,7 @@ import ChatMessage from './ChatMessage';
 import { MessagePosition } from '../type/common';
 
 const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
+  //Split message group by each User to apply style
   const messageGroupByUser: IMessageDetail[][] = [];
   let currentGroup: IMessageDetail[] = [];
   session.forEach((message, index) => {
@@ -21,11 +22,13 @@ const ChatSession = ({ session }: { session: IMessageDetail[] }) => {
 
   const messageComponent = messageGroupByUser.map((msgGroup) => {
     const messageComponet = msgGroup.map((message, index) => {
+      //Check show avatar
       let isShowAvatar: boolean = false;
       if (index === msgGroup.length - 1) {
         isShowAvatar = true;
       }
 
+      //Get message position to apply style
       let messagePosition: MessagePosition;
       if (msgGroup.length === 1) {
         messagePosition = 'single';
