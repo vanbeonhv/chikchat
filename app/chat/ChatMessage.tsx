@@ -3,14 +3,22 @@ import Tooltip from '@/shared-ui/Tooltip';
 import { getDateTime } from '@/util/getDateTime';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import './style.css'
+import { MessagePosition } from '../type/common';
+
+interface IChatMessageProps  {
+  message: IMessageDetail;
+  isShowAvatar: boolean;
+  position: MessagePosition;
+}
 
 const ChatMessage = ({
   message,
   isShowAvatar,
-}: {
-  message: IMessageDetail;
-  isShowAvatar: boolean;
-}) => {
+  position
+}: IChatMessageProps
+ 
+) => {
   const session = useSession();
   const isOwnMessage = message.email === session?.data?.user?.email;
 
@@ -19,7 +27,7 @@ const ChatMessage = ({
   const isPrimaryBackground = isOwnMessage
     ? 'bg-teal-500 text-white'
     : 'bg-white';
-
+  
   return (
     <div className={`${isTextRight}`}>
       <div className={`flex items-center gap-4 h-11 ${isFlexRight}`}>
@@ -45,7 +53,7 @@ const ChatMessage = ({
           side={isOwnMessage ? 'left' : 'right'}
         >
           <div
-            className={`rounded-full px-4 py-2 shadow-md self-start ${isPrimaryBackground}`}
+            className={`message-border-radius px-4 py-2 shadow-md self-start ${isPrimaryBackground} ${position}`}
           >
             {message.message}
           </div>
